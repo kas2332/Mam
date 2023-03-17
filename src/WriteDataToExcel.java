@@ -30,7 +30,7 @@ public class WriteDataToExcel {
 
         studentData.put("2", new Object[]{"128", "Aditya", "2nd year"});
 
-        studentData.put("3", new Object[]{"129", "Narayana", "2nd year"});
+        studentData.put("3", new Object[]{"128", "Aditya", "2nd year"});
 
         studentData.put("4", new Object[]{"130", "Mohan", "2nd year"});
 
