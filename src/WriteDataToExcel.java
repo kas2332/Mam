@@ -56,7 +56,12 @@ public class WriteDataToExcel {
 
         // .xlsx is the format for Excel Sheets...
         // writing the workbook into the file...
-        FileOutputStream out = new FileOutputStream("C:\\Users\\ks4292\\Desktop\\Bracket.xlsx");
+        //School
+        //FileOutputStream out = new FileOutputStream("C:\\Users\\ks4292\\Desktop\\Bracket.xlsx");
+        //Hotel
+        FileOutputStream out = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Sample.xlsx");
+        //Home
+        //FileOutputStream out = new FileOutputStream("");
 
         workbook.write(out);
         out.close();
