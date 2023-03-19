@@ -28,7 +28,7 @@ public class WriteDataToExcel {
 
         studentData.put("1", new Object[]{"Roll No", "NAME", "Year"});
 
-        studentData.put("2", new Object[]{"128", "Aditya", "2nd year"});
+        studentData.put("2", new Object[]{"654654", "Aditya", "2nd year"});
 
         studentData.put("3", new Object[]{"128", "Aditya", "2nd year"});
 
@@ -38,18 +38,18 @@ public class WriteDataToExcel {
 
         studentData.put("6", new Object[]{"132", "Gopal", "2nd year"});
 
-        Set<String> keyid = studentData.keySet();
+        Set<String> keyID = studentData.keySet();
 
-        int rowid = 0;
+        int rowID = 0;
 
         // writing the data into the sheets...
 
-        for (String key : keyid) {
-            row = spreadsheet.createRow(rowid++);
+        for (String key : keyID) {
+            row = spreadsheet.createRow(rowID++);
             Object[] objectArr = studentData.get(key);
-            int cellid = 0;
+            int cellID = 0;
             for (Object obj : objectArr) {
-                Cell cell = row.createCell(cellid++);
+                Cell cell = row.createCell(cellID++);
                 cell.setCellValue((String) obj);
             }
         }
@@ -57,7 +57,7 @@ public class WriteDataToExcel {
         // .xlsx is the format for Excel Sheets...
         // writing the workbook into the file...
         //School
-        //FileOutputStream out = new FileOutputStream("C:\\Users\\ks4292\\Desktop\\Bracket.xlsx");
+        //FileOutputStream out = new FileOutputStream("");
         //Hotel
         FileOutputStream out = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Sample.xlsx");
         //Home
