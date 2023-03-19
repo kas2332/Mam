@@ -1,9 +1,9 @@
 import java.util.Random;
 
 public class Animal {
+    Random rand = new Random();
     private String name;
     private int rank;
-    Random rand = new Random();
 
     public Animal(String name, int rank) {
         this.name = name;
@@ -22,7 +22,7 @@ public class Animal {
     }
 
     public String toString() {
-        return name + "\n" + rank;
+        return name + "," + rank + "\n";
     }
 
     public Animal winner(Animal animal1, Animal animal2) {
