@@ -113,4 +113,33 @@ public class Runner {
             }
         }
     }
+
+    public void compareSecondRound() {
+        String name1, name2;
+        for (int r = 0; r < 58; r += 8) {
+            for (int c = -1; c < 2; c += 2) {
+                XSSFRow row1 = bracket.getRow(r);
+                Cell cell1 = row1.getCell((6 * c) + 8);
+                name1 = cell1.getStringCellValue();
+
+                XSSFRow row2 = bracket.getRow(r + 2);
+                Cell cell2 = row2.getCell((6 * c) + 8);
+                name2 = cell2.getStringCellValue();
+
+                Animal Winner = animal.winner(animalMap.get(name1), animalMap.get(name2));
+
+                XSSFRow rowWinner = bracket.getRow(r + 1);
+                Cell cellWinner = rowWinner.createCell((5 * c) + 8);
+                cellWinner.setCellValue(Winner.getName());
+                try {
+                    //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
+                    fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+                    wb.write(fos);
+                    fos.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
 }
