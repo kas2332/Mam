@@ -21,7 +21,8 @@ public class Runner {
         animal = new Animal();
         try {
             //fis = new FileInputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Hotel
-            fis = new FileInputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+            //fis = new FileInputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+            fis = new FileInputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
             wb = new XSSFWorkbook(fis);
             helper = wb.getSheetAt(0);
             sample = wb.getSheetAt(1);
@@ -36,7 +37,8 @@ public class Runner {
         Runner runner = new Runner();
         runner.makeAnimalObjects();
         runner.compareWildcards();
-        runner.compareFirstRound();
+        runner.compareMinorRounds();
+        runner.compareChampionship();
     }
 
     public void makeAnimalObjects() {
@@ -77,7 +79,8 @@ public class Runner {
         cellWinner.setCellValue(Winner.getName());
         try {
             //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
-            fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+            //fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+            fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
             wb.write(fos);
             fos.close();
         } catch (IOException e) {
@@ -85,61 +88,66 @@ public class Runner {
         }
     }
 
-    public void compareFirstRound() {
+    public void compareMinorRounds() {
         String name1, name2;
-        for (int r = 0; r < 61; r += 4) {
-            for (int c = -1; c < 2; c += 2) {
-                XSSFRow row1 = bracket.getRow(r);
-                Cell cell1 = row1.getCell((6 * c) + 8);
-                name1 = cell1.getStringCellValue();
+        int incrementFromEnds, nextAnimal = 4, distanceFromCenter = 6;
+        for (int j = 0; j < 5; j++) {
+            incrementFromEnds = (int) ((Math.pow(2, j)) - 1);
+            for (int r = incrementFromEnds; r < (61 - incrementFromEnds); r += nextAnimal) {
+                for (int c = -1; c < 2; c += 2) {
+                    XSSFRow row1 = bracket.getRow(r);
+                    Cell cell1 = row1.getCell((distanceFromCenter * c) + 8);
+                    name1 = cell1.getStringCellValue();
 
-                XSSFRow row2 = bracket.getRow(r + 2);
-                Cell cell2 = row2.getCell((6 * c) + 8);
-                name2 = cell2.getStringCellValue();
+                    XSSFRow row2 = bracket.getRow(r + (nextAnimal / 2));
+                    Cell cell2 = row2.getCell((distanceFromCenter * c) + 8);
+                    name2 = cell2.getStringCellValue();
 
-                Animal Winner = animal.winner(animalMap.get(name1), animalMap.get(name2));
+                    Animal Winner = animal.winner(animalMap.get(name1), animalMap.get(name2));
 
-                XSSFRow rowWinner = bracket.getRow(r + 1);
-                Cell cellWinner = rowWinner.createCell((5 * c) + 8);
-                cellWinner.setCellValue(Winner.getName());
-                try {
-                    //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
-                    fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-                    wb.write(fos);
-                    fos.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
+                    XSSFRow rowWinner = bracket.getRow(r + (nextAnimal / 4));
+                    Cell cellWinner = rowWinner.createCell(((distanceFromCenter - 1) * c) + 8);
+                    cellWinner.setCellValue(Winner.getName());
+                    try {
+                        //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
+                        //fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+                        fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+                        wb.write(fos);
+                        fos.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
                 }
             }
+            nextAnimal *= 2;
+            distanceFromCenter--;
         }
     }
 
-    public void compareSecondRound() {
+    public void compareChampionship() {
         String name1, name2;
-        for (int r = 0; r < 58; r += 8) {
-            for (int c = -1; c < 2; c += 2) {
-                XSSFRow row1 = bracket.getRow(r);
-                Cell cell1 = row1.getCell((6 * c) + 8);
-                name1 = cell1.getStringCellValue();
 
-                XSSFRow row2 = bracket.getRow(r + 2);
-                Cell cell2 = row2.getCell((6 * c) + 8);
-                name2 = cell2.getStringCellValue();
+        XSSFRow row1 = bracket.getRow(31);
+        Cell cell1 = row1.getCell(7);
+        name1 = cell1.getStringCellValue();
 
-                Animal Winner = animal.winner(animalMap.get(name1), animalMap.get(name2));
+        XSSFRow row2 = bracket.getRow(31);
+        Cell cell2 = row2.getCell(9);
+        name2 = cell2.getStringCellValue();
 
-                XSSFRow rowWinner = bracket.getRow(r + 1);
-                Cell cellWinner = rowWinner.createCell((5 * c) + 8);
-                cellWinner.setCellValue(Winner.getName());
-                try {
-                    //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
-                    fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-                    wb.write(fos);
-                    fos.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+        Animal Winner = animal.winner(animalMap.get(name1), animalMap.get(name2));
+
+        XSSFRow rowWinner = bracket.getRow(31);
+        Cell cellWinner = rowWinner.createCell(8);
+        cellWinner.setCellValue(Winner.getName());
+        try {
+            //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
+            //fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+            fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+            wb.write(fos);
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
