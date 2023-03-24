@@ -13,7 +13,7 @@ public class Runner {
     FileInputStream fis;
     FileOutputStream fos;
     XSSFWorkbook wb;
-    XSSFSheet helper, sample, bracket;
+    XSSFSheet helper, sample, bracket, bracket1;
     Animal animal;
     Map<String, Animal> animalMap = new LinkedHashMap<>();
 
@@ -21,12 +21,12 @@ public class Runner {
         animal = new Animal();
         try {
             //fis = new FileInputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Hotel
-            //fis = new FileInputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-            fis = new FileInputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+            fis = new FileInputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+            //fis = new FileInputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
             wb = new XSSFWorkbook(fis);
             helper = wb.getSheetAt(0);
             sample = wb.getSheetAt(1);
-            //bracket = wb.createSheet("Bracket1");
+            bracket1 = wb.getSheetAt(3);
             bracket = wb.getSheetAt(2);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -79,8 +79,8 @@ public class Runner {
         cellWinner.setCellValue(Winner.getName());
         try {
             //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
-            //fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-            fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+            fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+            //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
             wb.write(fos);
             fos.close();
         } catch (IOException e) {
@@ -110,8 +110,8 @@ public class Runner {
                     cellWinner.setCellValue(Winner.getName());
                     try {
                         //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
-                        //fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-                        fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+                        fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+                        //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
                         wb.write(fos);
                         fos.close();
                     } catch (IOException e) {
@@ -142,8 +142,8 @@ public class Runner {
         cellWinner.setCellValue(Winner.getName());
         try {
             //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
-            //fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-            fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+            fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+            //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
             wb.write(fos);
             fos.close();
         } catch (IOException e) {
