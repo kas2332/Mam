@@ -20,7 +20,6 @@ public class Runner {
     public Runner() {
         animal = new Animal();
         try {
-            //fis = new FileInputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Hotel
             fis = new FileInputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
             //fis = new FileInputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
             wb = new XSSFWorkbook(fis);
@@ -78,7 +77,6 @@ public class Runner {
         Cell cellWinner = rowWinner.createCell(2);
         cellWinner.setCellValue(Winner.getName());
         try {
-            //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
             fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
             //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
             wb.write(fos);
@@ -109,9 +107,8 @@ public class Runner {
                     Cell cellWinner = rowWinner.createCell(((distanceFromCenter - 1) * c) + 8);
                     cellWinner.setCellValue(Winner.getName());
                     try {
-                        //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
+                        //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Home
                         fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-                        //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
                         wb.write(fos);
                         fos.close();
                     } catch (IOException e) {
@@ -141,7 +138,6 @@ public class Runner {
         Cell cellWinner = rowWinner.createCell(8);
         cellWinner.setCellValue(Winner.getName());
         try {
-            //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Hotel
             fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
             //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
             wb.write(fos);
