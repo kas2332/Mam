@@ -3,6 +3,10 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,19 +17,17 @@ public class Runner {
     FileInputStream fis;
     FileOutputStream fos;
     XSSFWorkbook wb;
-    XSSFSheet helper, sample, bracket, bracket1;
+    XSSFSheet helper, sample, bracket;
     Animal animal;
     Map<String, Animal> animalMap = new LinkedHashMap<>();
 
     public Runner() {
         animal = new Animal();
         try {
-            fis = new FileInputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-            //fis = new FileInputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+            fis = new FileInputStream("Resources\\Bracket.xlsx");
             wb = new XSSFWorkbook(fis);
             helper = wb.getSheetAt(0);
             sample = wb.getSheetAt(1);
-            bracket1 = wb.getSheetAt(3);
             bracket = wb.getSheetAt(2);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -35,9 +37,11 @@ public class Runner {
     public static void main(String[] args) {
         Runner runner = new Runner();
         runner.makeAnimalObjects();
+        runner.makeEmptyImage();
         runner.compareWildcards();
         runner.compareMinorRounds();
         runner.compareChampionship();
+        runner.printToImage(0, 0, "");
     }
 
     public void makeAnimalObjects() {
@@ -60,6 +64,17 @@ public class Runner {
         }
     }
 
+    public void makeEmptyImage () {
+        try {
+            File file = new File("Resources\\Empty_Bracket.png");
+            BufferedImage bufferedImage = ImageIO.read(file);
+            file = new File("SampleBracket.png");
+            ImageIO.write(bufferedImage, "png", file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void compareWildcards() {
         String name1, name2;
 
@@ -77,8 +92,7 @@ public class Runner {
         Cell cellWinner = rowWinner.createCell(2);
         cellWinner.setCellValue(Winner.getName());
         try {
-            fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-            //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+            fos = new FileOutputStream("Resources\\Bracket.xlsx");
             wb.write(fos);
             fos.close();
         } catch (IOException e) {
@@ -107,8 +121,7 @@ public class Runner {
                     Cell cellWinner = rowWinner.createCell(((distanceFromCenter - 1) * c) + 8);
                     cellWinner.setCellValue(Winner.getName());
                     try {
-                        //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");  //Home
-                        fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
+                        fos = new FileOutputStream("Resources\\Bracket.xlsx");
                         wb.write(fos);
                         fos.close();
                     } catch (IOException e) {
@@ -138,10 +151,26 @@ public class Runner {
         Cell cellWinner = rowWinner.createCell(8);
         cellWinner.setCellValue(Winner.getName());
         try {
-            fos = new FileOutputStream("C:\\Users\\ks4292\\IdeaProjects\\Mam\\Bracket.xlsx");   //School
-            //fos = new FileOutputStream("C:\\Users\\Pants\\IdeaProjects\\Mam\\Bracket.xlsx");   //Home
+            fos = new FileOutputStream("Resources\\Bracket.xlsx");
             wb.write(fos);
             fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void printToImage(int x, int y, String name) {
+        try {
+            File file = new File("SampleBracket.png");
+            BufferedImage bufferedImage = ImageIO.read(file);
+            Graphics2D g2d = bufferedImage.createGraphics();
+            g2d.setColor(Color.black);
+            g2d.setFont(new Font("Comic Sans MS", Font.BOLD, 8));
+            g2d.drawString(name, x, y);
+            g2d.dispose();
+            file = new File("SampleBracket.png");
+
+            ImageIO.write(bufferedImage, "png", file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
