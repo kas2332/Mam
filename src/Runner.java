@@ -41,7 +41,6 @@ public class Runner {
         runner.compareWildcards();
         runner.compareMinorRounds();
         runner.compareChampionship();
-        runner.printToImage(0, 0, "");
     }
 
     public void makeAnimalObjects() {
@@ -66,7 +65,7 @@ public class Runner {
 
     public void makeEmptyImage () {
         try {
-            File file = new File("Resources\\Empty_Bracket.png");
+            File file = new File("Resources\\2023_Template.png");
             BufferedImage bufferedImage = ImageIO.read(file);
             file = new File("SampleBracket.png");
             ImageIO.write(bufferedImage, "png", file);
@@ -98,6 +97,7 @@ public class Runner {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        printToImage(404, 1513, Winner.getName(), 135, 59);
     }
 
     public void compareMinorRounds() {
@@ -157,16 +157,28 @@ public class Runner {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        printToImage(1502, 1199, Winner.getName(), 320, 85);
     }
 
-    public void printToImage(int x, int y, String name) {
+    public void printToImage(int x, int y, String name, int length, int heightP) {
         try {
+            int width, height, fontSize = 0;
             File file = new File("SampleBracket.png");
             BufferedImage bufferedImage = ImageIO.read(file);
             Graphics2D g2d = bufferedImage.createGraphics();
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
             g2d.setColor(Color.black);
-            g2d.setFont(new Font("Comic Sans MS", Font.BOLD, 8));
-            g2d.drawString(name, x, y);
+            do {
+                fontSize++;
+                g2d.setFont(new Font("Comic Sans MS", Font.BOLD, fontSize));
+                width = g2d.getFontMetrics().stringWidth(name);
+                height = g2d.getFontMetrics().getHeight();
+            } while ((width < length - 5) && (height < heightP - 5));
+            g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, fontSize - 1));
+            width = g2d.getFontMetrics().stringWidth(name);
+            height = g2d.getFontMetrics().getHeight();
+            int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = ((heightP - height) / 2) + g2d.getFontMetrics().getDescent();
+            g2d.drawString(name, x + xOffset, y - yOffset);
             g2d.dispose();
             file = new File("SampleBracket.png");
 

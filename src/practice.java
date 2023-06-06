@@ -7,7 +7,7 @@ import java.io.IOException;
 public class practice {
     public static void main(String[] args) {
         try {
-            File file = new File("Resources\\Empty_Bracket.png");
+            File file = new File("Resources\\2023_Template.png");
             BufferedImage bufferedImage = ImageIO.read(file);
             Graphics2D g2d = bufferedImage.createGraphics();
             g2d.setColor(Color.black);
