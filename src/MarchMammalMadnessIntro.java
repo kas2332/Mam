@@ -6,11 +6,10 @@
 import java.awt.*;
 
 /**
- *
  * @author Pants
  */
 public class MarchMammalMadnessIntro extends javax.swing.JPanel {
-    Font font = new Font ("Comic Sans MS", Font.PLAIN, 20);
+    Font font = new Font("Comic Sans MS", Font.PLAIN, 20);
 
     /**
      * Creates new form MarchMammalMadnessIntro

@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AutoFiller {
+    final int LENGTH = 200, HEIGHT = 50;
     FileInputStream fis;
     FileOutputStream fos;
     File destination;
@@ -36,7 +37,6 @@ public class AutoFiller {
             {465, 570, 647, 779, 884, 988, 1093, 1197, 1628, 1731, 1836, 1940, 2045, 2149, 2254, 2359}
     };
     int[] xPosition = {404, 631, 826, 1028, 1228, 1428, 1497, 1686, 1895, 2101, 2295, 2495};
-    final int LENGTH = 200, HEIGHT = 50;
 
     public AutoFiller(File destination) {
         this.destination = destination;
@@ -53,7 +53,7 @@ public class AutoFiller {
     }
 
     public static void main(String[] args) {
-        AutoFiller autoFiller = new AutoFiller(new File("SampleBracket.png"));
+        AutoFiller autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket.png"));
         autoFiller.makeAnimalObjects();
         autoFiller.makeEmptyImage();
         autoFiller.compareWildcards();
@@ -200,7 +200,6 @@ public class AutoFiller {
             g2d.drawString(name, x + xOffset, y - yOffset);
             g2d.dispose();
             file = new File(String.valueOf(destination));
-
             ImageIO.write(bufferedImage, "png", file);
         } catch (IOException e) {
             throw new RuntimeException(e);
