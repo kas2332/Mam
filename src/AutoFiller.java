@@ -14,6 +14,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AutoFiller {
+    static int count = 0;
     final int LENGTH = 200, HEIGHT = 50;
     FileInputStream fis;
     FileOutputStream fos;
@@ -180,6 +181,9 @@ public class AutoFiller {
     }
 
     public void printToImage(int x, int y, String name, int length, int heightP) {
+        count++;
+        ProgressGUI.updateProgressBar(count);
+        System.out.println(count);
         try {
             int width, height, fontSize = 0;
             File file = new File(String.valueOf(destination));
@@ -204,5 +208,9 @@ public class AutoFiller {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void setCount(int x) {
+        count = x;
     }
 }
