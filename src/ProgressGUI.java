@@ -6,6 +6,7 @@ public class ProgressGUI {
     static JProgressBar progressBar;
     static JLabel loadingText;
     AutoFiller autoFiller;
+    JFrame frame;
 
     public static void main(String[] args) {
         ProgressGUI progressGUI = new ProgressGUI();
@@ -30,7 +31,7 @@ public class ProgressGUI {
         JButton okayButton = new JButton();
         loadingText = new JLabel();
         progressBar = new JProgressBar();
-        JFrame frame = new JFrame();
+        frame = new JFrame();
 
         okayButton.setText("Okay");
         okayButton.addActionListener(e -> pressedOkay = true);
@@ -99,6 +100,10 @@ public class ProgressGUI {
             autoFiller.compareMinorRounds();
             autoFiller.compareChampionship();
         }
-        autoFiller.setCount(0);
+        frame.dispose();
+//        autoFiller.setCount(0);
+//        Runner.incrementer.setEnabled(true);
+//        Runner.confirmButton.setEnabled(true);
+//        Runner.frame.setVisible(true);
     }
 }

@@ -4,6 +4,9 @@ import java.awt.*;
 public class Runner extends Container {
     final static Object LOCK = new Object();
     static int rounds;
+    static JSpinner incrementer;
+    static JButton confirmButton;
+    static JFrame frame;
     Font font = new Font("Comic Sans MS", Font.PLAIN, 12), titleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
 
     public static void main(String[] args) {
@@ -18,15 +21,15 @@ public class Runner extends Container {
         JLabel titleText = new JLabel();
         JLabel descriptionText = new JLabel();
         JPanel autoFillerPanel = new JPanel();
-        JSpinner incrementer = new JSpinner();
-        JButton confirmButton = new JButton();
+        incrementer = new JSpinner();
+        confirmButton = new JButton();
         JLabel autoFillerDescriptionText = new JLabel();
         JPanel customizationPanel = new JPanel();
         JLabel weightText = new JLabel();
         JSlider weightSlider = new JSlider();
         JRadioButton randomRadioButton = new JRadioButton();
         JRadioButton seedRadioButton = new JRadioButton();
-        JFrame frame = new JFrame();
+         frame = new JFrame();
         //</editor-fold>
 
         jSpinner1.setFont(font);
@@ -53,19 +56,20 @@ public class Runner extends Container {
                 ProgressGUI progressGUI = new ProgressGUI();
                 progressGUI.displayGUI();
 
-                synchronized (LOCK) {
-                    while (!ProgressGUI.pressedOkay) {
-                        try {
-                            LOCK.wait();
-                        } catch (InterruptedException ex) {
-                            break;
-                        }
-                    }
-                }
-
+//                synchronized (LOCK) {
+//                    while (!ProgressGUI.pressedOkay) {
+//                        try {
+//                            LOCK.wait();
+//                        } catch (InterruptedException ex) {
+//                            break;
+//                        }
+//                    }
+//                }
                 incrementer.setEnabled(true);
                 confirmButton.setEnabled(true);
                 frame.setVisible(true);
+
+
             }
         });
 
