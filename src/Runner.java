@@ -1,12 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Runner extends Container {
-    final static Object LOCK = new Object();
+public class Runner {
     static int rounds;
     static JSpinner incrementer;
     static JButton confirmButton;
     static JFrame frame;
+    ProgressGUI progressGUI = new ProgressGUI();
     Font font = new Font("Comic Sans MS", Font.PLAIN, 12), titleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
 
     public static void main(String[] args) {
@@ -50,24 +50,8 @@ public class Runner extends Container {
             if (rounds < 1) {
                 JOptionPane.showMessageDialog(null, "Error: invalid number detected.\nPlease enter only positive non-zero numbers", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                incrementer.setEnabled(false);
-                confirmButton.setEnabled(false);
                 frame.setVisible(false);
-                ProgressGUI progressGUI = new ProgressGUI();
                 progressGUI.displayGUI();
-
-//                synchronized (LOCK) {
-//                    while (!ProgressGUI.pressedOkay) {
-//                        try {
-//                            LOCK.wait();
-//                        } catch (InterruptedException ex) {
-//                            break;
-//                        }
-//                    }
-//                }
-                incrementer.setEnabled(true);
-                confirmButton.setEnabled(true);
-                frame.setVisible(true);
 
 
             }
