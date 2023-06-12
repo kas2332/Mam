@@ -92,12 +92,7 @@ public class ProgressGUI {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         //frame.setResizable(false);
         frame.setVisible(true);
-        try {
-            sleep(5000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        //makeBrackets();
+        makeBrackets();
     }
 
     public void makeBrackets() {

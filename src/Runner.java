@@ -6,7 +6,7 @@ public class Runner {
     static JSpinner incrementer;
     static JButton confirmButton;
     static JFrame frame;
-    ProgressGUI progressGUI = new ProgressGUI();
+    ProgressGUI progressGUI;
     Font font = new Font("Comic Sans MS", Font.PLAIN, 12), titleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
 
     public static void main(String[] args) {
@@ -51,9 +51,8 @@ public class Runner {
                 JOptionPane.showMessageDialog(null, "Error: invalid number detected.\nPlease enter only positive non-zero numbers", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 frame.setVisible(false);
+                progressGUI = new ProgressGUI();
                 progressGUI.displayGUI();
-
-
             }
         });
 
