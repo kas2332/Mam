@@ -3,8 +3,8 @@ import java.awt.*;
 
 public class Runner implements Runnable {
     static int rounds;
-    static JSpinner incrementer;
-    static JButton confirmButton;
+    JSpinner incrementer;
+    JButton confirmButton;
     static JFrame frame;
     ProgressGUI progressGUI;
     Font font = new Font("Comic Sans MS", Font.PLAIN, 12), titleFont = new Font("Comic Sans MS", Font.PLAIN, 20);

@@ -6,17 +6,12 @@ public class ProgressGUI {
     static JProgressBar progressBar;
     static JLabel loadingText;
     static JButton okayButton;
-
     AutoFiller autoFiller;
     JFrame frame;
 
-    public static void main(String[] args) {
-        ProgressGUI progressGUI = new ProgressGUI();
-        progressGUI.displayGUI();
-    }
-
     public static void updateProgressBar(int count) {
         progressBar.setValue((int) Math.floor(((double) count / (Runner.rounds * 64)) * 100));
+        progressBar.setToolTipText(progressBar.getValue() + "% completed");
         if (count == (Runner.rounds * 64)) {
             loadingText.setText("Completed!");
             okayButton.setEnabled(true);
@@ -58,6 +53,8 @@ public class ProgressGUI {
         });
 
         loadingText.setText("Loading.");
+
+        progressBar.setToolTipText(progressBar.getValue() + "% completed");
 
         //<editor-fold desc="Layout">
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
