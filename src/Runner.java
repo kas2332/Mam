@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class Runner {
+public class Runner implements Runnable {
     static int rounds;
     static JSpinner incrementer;
     static JButton confirmButton;
@@ -29,7 +29,7 @@ public class Runner {
         JSlider weightSlider = new JSlider();
         JRadioButton randomRadioButton = new JRadioButton();
         JRadioButton seedRadioButton = new JRadioButton();
-         frame = new JFrame();
+        frame = new JFrame();
         //</editor-fold>
 
         jSpinner1.setFont(font);
@@ -53,6 +53,9 @@ public class Runner {
                 frame.setVisible(false);
                 progressGUI = new ProgressGUI();
                 progressGUI.displayGUI();
+                Runner runner = new Runner();
+                Thread thread = new Thread(runner);
+                thread.start();
             }
         });
 
@@ -223,4 +226,9 @@ public class Runner {
         frame.setResizable(false);
         frame.setVisible(true);
     }// </editor-fold>
+
+    public void run() {
+        ProgressGUI progressGUI1 = new ProgressGUI();
+        progressGUI1.makeBrackets();
+    }
 }

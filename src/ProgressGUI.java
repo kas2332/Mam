@@ -1,12 +1,12 @@
 import javax.swing.*;
 import java.io.File;
 
-import static java.lang.Thread.sleep;
-
 public class ProgressGUI {
-    static Boolean pressedOkay = false;
+    static int numBrackets;
     static JProgressBar progressBar;
     static JLabel loadingText;
+    static JButton okayButton;
+
     AutoFiller autoFiller;
     JFrame frame;
 
@@ -16,9 +16,10 @@ public class ProgressGUI {
     }
 
     public static void updateProgressBar(int count) {
-        progressBar.setValue((int) Math.floor(((double) count / (1 * 64)) * 100));
-        if (count == (1 * 64)) {
+        progressBar.setValue((int) Math.floor(((double) count / (Runner.rounds * 64)) * 100));
+        if (count == (Runner.rounds * 64)) {
             loadingText.setText("Completed!");
+            okayButton.setEnabled(true);
         } else if ((count % 3) == 0) {
             loadingText.setText("Loading.");
         } else if ((count % 3) == 1) {
@@ -30,14 +31,28 @@ public class ProgressGUI {
 
     public void displayGUI() {
         JPanel jPanel1 = new JPanel();
-        JButton okayButton = new JButton();
+        okayButton = new JButton();
         loadingText = new JLabel();
         progressBar = new JProgressBar();
         frame = new JFrame();
 
+        frame.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                if (loadingText.getText().equals("Completed!")) {
+                    frame.dispose();
+                    Runner.frame.setVisible(true);
+                } else if ((JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit this program?", "Close Window?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) && !(loadingText.getText().equals("Completed!"))) {
+                    System.exit(0);
+                } else {
+                    frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+                }
+            }
+        });
+
         okayButton.setText("Okay");
+        okayButton.setEnabled(false);
         okayButton.addActionListener(e -> {
-            pressedOkay = true;
             frame.dispose();
             Runner.frame.setVisible(true);
         });
@@ -92,18 +107,19 @@ public class ProgressGUI {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         //frame.setResizable(false);
         frame.setVisible(true);
-        makeBrackets();
     }
 
     public void makeBrackets() {
-        for (int i = 0; i < 1; i++) {
-            AutoFiller autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + (i + 1) + ".png"));
+        autoFiller = new AutoFiller(null);
+        int i = numBrackets;
+        for (; numBrackets < (i + Runner.rounds); numBrackets++) {
+            autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + (numBrackets + 1) + ".png"));
             autoFiller.makeAnimalObjects();
             autoFiller.makeEmptyImage();
             autoFiller.compareWildcards();
             autoFiller.compareMinorRounds();
             autoFiller.compareChampionship();
         }
-        autoFiller.setCount(0);
+        AutoFiller.count = 0;
     }
 }
