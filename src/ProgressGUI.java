@@ -1,5 +1,10 @@
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.stream.Stream;
 
 public class ProgressGUI {
     static int numBrackets;
@@ -11,7 +16,7 @@ public class ProgressGUI {
 
     public static void updateProgressBar(int count) {
         progressBar.setValue((int) Math.floor(((double) count / (Runner.rounds * 64)) * 100));
-        progressBar.setToolTipText(progressBar.getValue() + "% completed");
+        progressBar.setToolTipText("<html><body>" + (count / (Runner.rounds * 64)) + " brackets completed<br>" + "time elapsed 0.5s per count" + "time remaining" );
         if (count == (Runner.rounds * 64)) {
             loadingText.setText("Completed!");
             okayButton.setEnabled(true);
@@ -53,8 +58,6 @@ public class ProgressGUI {
         });
 
         loadingText.setText("Loading.");
-
-        progressBar.setToolTipText(progressBar.getValue() + "% completed");
 
         //<editor-fold desc="Layout">
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -106,39 +109,33 @@ public class ProgressGUI {
         frame.setVisible(true);
     }
 
-    public void makeBrackets2() {
-        autoFiller = new AutoFiller(null);
-        int i = 1;
-        while ((new File("CompletedBoards\\SampleBracket" + i + ".png").exists())) {
-            i++;
+    public void makeBrackets() {
+        var ref = new Object() {
+            int i = 0;
+        };
+        try (Stream<Path> fileStream = Files.walk(Paths.get("CompletedBoards"))) {
+            fileStream.forEach(path -> {
+                if (!(path.toFile()).isDirectory()) {
+                    String fullName = path.toFile().getName();
+                    int num = Integer.parseInt(fullName.replace(".png", "").replace("SampleBracket", ""));
+                    if (num > ref.i) {
+                        ref.i = num;
+                    }
+                }
+            });
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-        numBrackets = i;
-        for (; numBrackets < (i + Runner.rounds); numBrackets++) {
+
+        autoFiller = new AutoFiller(null);
+        ref.i++;
+        for (numBrackets = ref.i; numBrackets < (ref.i + Runner.rounds); numBrackets++) {
             autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
             autoFiller.makeAnimalObjects();
             autoFiller.makeEmptyImage();
             autoFiller.compareWildcards();
             autoFiller.compareMinorRounds();
             autoFiller.compareChampionship();
-        }
-        AutoFiller.count = 0;
-    }
-
-    public void makeBrackets() {
-        autoFiller = new AutoFiller(null);
-        for (int i = 1, numBrackets = 1; numBrackets < (i + Runner.rounds); numBrackets++) {
-            System.out.println(i);
-            System.out.println(numBrackets);
-            if ((new File("CompletedBoards\\SampleBracket" + i + ".png").exists())) {
-                i++;
-            } else {
-                autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
-                autoFiller.makeAnimalObjects();
-                autoFiller.makeEmptyImage();
-                autoFiller.compareWildcards();
-                autoFiller.compareMinorRounds();
-                autoFiller.compareChampionship();
-            }
         }
         AutoFiller.count = 0;
     }
