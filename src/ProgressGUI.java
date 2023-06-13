@@ -102,20 +102,43 @@ public class ProgressGUI {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        //frame.setResizable(false);
+        frame.setResizable(false);
         frame.setVisible(true);
     }
 
-    public void makeBrackets() {
+    public void makeBrackets2() {
         autoFiller = new AutoFiller(null);
-        int i = numBrackets;
+        int i = 1;
+        while ((new File("CompletedBoards\\SampleBracket" + i + ".png").exists())) {
+            i++;
+        }
+        numBrackets = i;
         for (; numBrackets < (i + Runner.rounds); numBrackets++) {
-            autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + (numBrackets + 1) + ".png"));
+            autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
             autoFiller.makeAnimalObjects();
             autoFiller.makeEmptyImage();
             autoFiller.compareWildcards();
             autoFiller.compareMinorRounds();
             autoFiller.compareChampionship();
+        }
+        AutoFiller.count = 0;
+    }
+
+    public void makeBrackets() {
+        autoFiller = new AutoFiller(null);
+        for (int i = 1, numBrackets = 1; numBrackets < (i + Runner.rounds); numBrackets++) {
+            System.out.println(i);
+            System.out.println(numBrackets);
+            if ((new File("CompletedBoards\\SampleBracket" + i + ".png").exists())) {
+                i++;
+            } else {
+                autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
+                autoFiller.makeAnimalObjects();
+                autoFiller.makeEmptyImage();
+                autoFiller.compareWildcards();
+                autoFiller.compareMinorRounds();
+                autoFiller.compareChampionship();
+            }
         }
         AutoFiller.count = 0;
     }
