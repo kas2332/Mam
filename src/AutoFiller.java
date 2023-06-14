@@ -4,6 +4,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -90,6 +91,14 @@ public class AutoFiller {
             ImageIO.write(bufferedImage, "png", file);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+
+        if (!(new File("CompletedBoards").exists())) {    //checks to see if there is a directory to store account information
+            boolean dirMade = (new File("CompletedBoards")).mkdir(); //creates a directory
+            if (!dirMade) {
+                JOptionPane.showMessageDialog(null, "Error: Something went wrong. Please try again later", "Error", JOptionPane.ERROR_MESSAGE);
+                System.exit(-999);
+            }
         }
     }
 
