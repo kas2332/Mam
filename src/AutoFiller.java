@@ -23,7 +23,7 @@ public class AutoFiller {
     XSSFWorkbook wb;
     XSSFSheet helper, sample, bracket;
     Animal animal;
-    Map<String, Animal> animalMap = new LinkedHashMap<>();
+    static Map<String, Animal> animalMap = new LinkedHashMap<>();
     int[][] yPosition = {
             {1513},
             {465, 570, 667, 779, 884, 988, 1093, 1197, 1628, 1731, 1836, 1940, 2045, 2149, 2254, 2359},
@@ -217,4 +217,6 @@ public class AutoFiller {
             throw new RuntimeException(e);
         }
     }
+
+    public File getDestination () {return destination;}
 }

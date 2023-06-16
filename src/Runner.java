@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Runner implements Runnable {
+    static Thread thread;
     static int rounds;
     JSpinner incrementer;
     JButton confirmButton;
@@ -54,7 +55,7 @@ public class Runner implements Runnable {
                 progressGUI = new ProgressGUI();
                 progressGUI.displayGUI();
                 Runner runner = new Runner();
-                Thread thread = new Thread(runner);
+                thread = new Thread(runner);
                 thread.start();
             }
         });
@@ -166,7 +167,7 @@ public class Runner implements Runnable {
         );
         //</editor-fold>
 
-        //<editor-fold desc="JPanel1">
+         //<editor-fold desc="JPanel1">
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(

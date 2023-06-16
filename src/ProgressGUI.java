@@ -1,22 +1,27 @@
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.stream.Stream;
 
 public class ProgressGUI {
-    static int numBrackets;
+    static int numBrackets, count;
     static JProgressBar progressBar;
     static JLabel loadingText;
     static JButton okayButton;
-    AutoFiller autoFiller;
+    static AutoFiller autoFiller;
     JFrame frame;
+    static Instant start, end;
+    Duration duration;
 
-    public static void updateProgressBar(int count) {
-        progressBar.setValue((int) Math.floor(((double) count / (Runner.rounds * 64)) * 100));
-        progressBar.setToolTipText("<html><body>" + (count / (Runner.rounds * 64)) + " brackets completed<br>" + "time elapsed 0.5s per count" + "time remaining" );
+    public static void updateProgressBar(int countP) {
+        count = countP;
         if (count == (Runner.rounds * 64)) {
             loadingText.setText("Completed!");
             okayButton.setEnabled(true);
@@ -33,7 +38,12 @@ public class ProgressGUI {
         JPanel jPanel1 = new JPanel();
         okayButton = new JButton();
         loadingText = new JLabel();
-        progressBar = new JProgressBar();
+        progressBar = new JProgressBar() {
+            @Override
+            public Point getToolTipLocation(MouseEvent event) {
+                return new Point(0, 10);
+            }
+        };
         frame = new JFrame();
 
         frame.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -43,6 +53,14 @@ public class ProgressGUI {
                     frame.dispose();
                     Runner.frame.setVisible(true);
                 } else if ((JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit this program?", "Close Window?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) && !(loadingText.getText().equals("Completed!"))) {
+                    if (!(autoFiller.getDestination() == null)) {
+                        File file = autoFiller.getDestination();
+                        System.out.println(autoFiller.getDestination().toString());
+
+                        if (!file.delete()) {
+                            JOptionPane.showMessageDialog(null, "Error, the unfilled bracket was not able to be deleted.", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                     System.exit(0);
                 } else {
                     frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -107,6 +125,28 @@ public class ProgressGUI {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
+
+        Timer t = new Timer(1000, e -> {
+            if (!(count == Runner.rounds * 64)) {
+              end = Instant.now();
+            }
+            if (!(start == null)) {
+                duration = Duration.between(start, end);
+            } else {
+                duration = Duration.ofDays(0);
+            }
+            progressBar.setValue((int) Math.floor(((double) count / (Runner.rounds * 64)) * 100));
+            progressBar.setToolTipText("<html><body>Brackets Completed: " + (count / (64)) + "<br>Time Elapsed: " + formatTime(Math.toIntExact(duration.toSeconds())) + "<br>Estimated Time Remaining: " + formatTime(((Runner.rounds * 64) - count) / 2));
+            Point locationOnScreen = MouseInfo.getPointerInfo().getLocation();
+            Point locationOnComponent = new Point(locationOnScreen);
+            SwingUtilities.convertPointFromScreen(locationOnComponent, progressBar);
+            if (progressBar.contains(locationOnComponent)) {
+                ToolTipManager.sharedInstance().mouseMoved(
+                        new MouseEvent(progressBar, -1, System.currentTimeMillis(), 0, locationOnComponent.x, locationOnComponent.y,
+                                locationOnScreen.x, locationOnScreen.y, 0, false, 0));
+            }
+        });
+        t.start();
     }
 
     public void makeBrackets() {
@@ -129,14 +169,43 @@ public class ProgressGUI {
 
         autoFiller = new AutoFiller(null);
         ref.i++;
+        start = Instant.now();
+        autoFiller.makeAnimalObjects();
         for (numBrackets = ref.i; numBrackets < (ref.i + Runner.rounds); numBrackets++) {
             autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
-            autoFiller.makeAnimalObjects();
+
             autoFiller.makeEmptyImage();
             autoFiller.compareWildcards();
             autoFiller.compareMinorRounds();
             autoFiller.compareChampionship();
         }
         AutoFiller.count = 0;
+    }
+
+    public static String formatTime(int sec) {
+        int seconds = sec % 60;
+        int minutes = sec / 60;
+        int hours = minutes / 60;
+        minutes %= 60;
+        int days = hours / 24;
+        hours %= 24;
+        int years = days / 365;
+        days %= 365;
+        String text = "";
+
+        if (years > 0) {
+            text += "Y: " + years + ", ";
+        }
+        if (days > 0) {
+            text += "D: " + days + ", ";
+        }
+        if (hours > 0) {
+            text += "H: " + hours + ", ";
+        }
+        if (minutes > 0) {
+            text += "M: " + minutes + ", ";
+        }
+        text += "S: " + seconds;
+        return text;
     }
 }
