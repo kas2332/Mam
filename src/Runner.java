@@ -167,7 +167,7 @@ public class Runner implements Runnable {
         );
         //</editor-fold>
 
-         //<editor-fold desc="JPanel1">
+        //<editor-fold desc="JPanel1">
         GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(

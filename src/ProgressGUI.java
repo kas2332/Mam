@@ -10,6 +10,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.stream.Stream;
 
+import static java.lang.Thread.sleep;
+
 public class ProgressGUI {
     static int numBrackets, count;
     static JProgressBar progressBar;
@@ -53,17 +55,28 @@ public class ProgressGUI {
                     frame.dispose();
                     Runner.frame.setVisible(true);
                 } else if ((JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit this program?", "Close Window?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) && !(loadingText.getText().equals("Completed!"))) {
-                    if (!(autoFiller.getDestination() == null)) {
-                        File file = autoFiller.getDestination();
-                        System.out.println(autoFiller.getDestination().toString());
+                    frame.setEnabled(false);
+                    File file;
+                    if (autoFiller.getDestination() == null) {
+                        System.exit(0);
+                    } else {
+                        file = autoFiller.getDestination();
+                        boolean deleted;
+                        for (int i = 0; i < 10; i++) {
+                            deleted = file.delete();
 
-                        if (!file.delete()) {
-                            JOptionPane.showMessageDialog(null, "Error, the unfilled bracket was not able to be deleted.", "Error", JOptionPane.ERROR_MESSAGE);
+                            if (deleted) {
+                                System.exit(0);
+                            } else {
+                                try {
+                                    sleep(500);
+                                } catch (InterruptedException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                            JOptionPane.showMessageDialog(null, "Error: Unfinished file could not be deleted", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     }
-                    System.exit(0);
-                } else {
-                    frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
                 }
             }
         });
@@ -128,7 +141,7 @@ public class ProgressGUI {
 
         Timer t = new Timer(1000, e -> {
             if (!(count == Runner.rounds * 64)) {
-              end = Instant.now();
+                end = Instant.now();
             }
             if (!(start == null)) {
                 duration = Duration.between(start, end);
@@ -173,7 +186,6 @@ public class ProgressGUI {
         autoFiller.makeAnimalObjects();
         for (numBrackets = ref.i; numBrackets < (ref.i + Runner.rounds); numBrackets++) {
             autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
-
             autoFiller.makeEmptyImage();
             autoFiller.compareWildcards();
             autoFiller.compareMinorRounds();

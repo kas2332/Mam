@@ -218,5 +218,7 @@ public class AutoFiller {
         }
     }
 
-    public File getDestination () {return destination;}
+    public File getDestination() {
+        return destination;
+    }
 }
