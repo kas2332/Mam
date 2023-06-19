@@ -18,8 +18,8 @@ public class ProgressGUI {
     static JLabel loadingText;
     static JButton okayButton;
     static AutoFiller autoFiller;
-    JFrame frame;
     static Instant start, end;
+    JFrame frame;
     Duration duration;
 
     public static void updateProgressBar(int countP) {
@@ -34,6 +34,33 @@ public class ProgressGUI {
         } else if ((count % 3) == 2) {
             loadingText.setText("Loading...");
         }
+    }
+
+    public static String formatTime(int sec) {
+        int seconds = sec % 60;
+        int minutes = sec / 60;
+        int hours = minutes / 60;
+        minutes %= 60;
+        int days = hours / 24;
+        hours %= 24;
+        int years = days / 365;
+        days %= 365;
+        String text = "";
+
+        if (years > 0) {
+            text += "Y: " + years + ", ";
+        }
+        if (days > 0) {
+            text += "D: " + days + ", ";
+        }
+        if (hours > 0) {
+            text += "H: " + hours + ", ";
+        }
+        if (minutes > 0) {
+            text += "M: " + minutes + ", ";
+        }
+        text += "S: " + seconds;
+        return text;
     }
 
     public void displayGUI() {
@@ -139,7 +166,7 @@ public class ProgressGUI {
         frame.setResizable(false);
         frame.setVisible(true);
 
-        Timer t = new Timer(1000, e -> {
+        Timer t = new Timer(500, e -> {
             if (!(count == Runner.rounds * 64)) {
                 end = Instant.now();
             }
@@ -163,10 +190,13 @@ public class ProgressGUI {
     }
 
     public void makeBrackets() {
+        AutoFiller.count = 0;
+        count = 0;
         var ref = new Object() {
             int i = 0;
         };
-        try (Stream<Path> fileStream = Files.walk(Paths.get("CompletedBoards"))) {
+        Path completedBoards = Paths.get("CompletedBoards");
+        try (Stream<Path> fileStream = Files.walk(completedBoards)) {
             fileStream.forEach(path -> {
                 if (!(path.toFile()).isDirectory()) {
                     String fullName = path.toFile().getName();
@@ -177,12 +207,15 @@ public class ProgressGUI {
                 }
             });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            if (Files.exists(completedBoards)) {
+                throw new RuntimeException(e);
+            }
         }
 
         autoFiller = new AutoFiller(null);
         ref.i++;
         start = Instant.now();
+        AutoFiller.makeDirectory();
         autoFiller.makeAnimalObjects();
         for (numBrackets = ref.i; numBrackets < (ref.i + Runner.rounds); numBrackets++) {
             autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
@@ -191,33 +224,5 @@ public class ProgressGUI {
             autoFiller.compareMinorRounds();
             autoFiller.compareChampionship();
         }
-        AutoFiller.count = 0;
-    }
-
-    public static String formatTime(int sec) {
-        int seconds = sec % 60;
-        int minutes = sec / 60;
-        int hours = minutes / 60;
-        minutes %= 60;
-        int days = hours / 24;
-        hours %= 24;
-        int years = days / 365;
-        days %= 365;
-        String text = "";
-
-        if (years > 0) {
-            text += "Y: " + years + ", ";
-        }
-        if (days > 0) {
-            text += "D: " + days + ", ";
-        }
-        if (hours > 0) {
-            text += "H: " + hours + ", ";
-        }
-        if (minutes > 0) {
-            text += "M: " + minutes + ", ";
-        }
-        text += "S: " + seconds;
-        return text;
     }
 }

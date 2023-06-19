@@ -2,11 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Runner implements Runnable {
+    static boolean random;
+    static int weight;
     static Thread thread;
     static int rounds;
+    static JFrame frame;
     JSpinner incrementer;
     JButton confirmButton;
-    static JFrame frame;
     ProgressGUI progressGUI;
     Font font = new Font("Comic Sans MS", Font.PLAIN, 12), titleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
 
@@ -47,6 +49,8 @@ public class Runner implements Runnable {
         confirmButton.setFont(font);
         confirmButton.setText("Confirm");
         confirmButton.addActionListener(e -> {
+            random = randomRadioButton.isSelected();
+            weight = weightSlider.getValue();
             rounds = (int) incrementer.getValue();
             if (rounds < 1) {
                 JOptionPane.showMessageDialog(null, "Error: invalid number detected.\nPlease enter only positive non-zero numbers", "Error", JOptionPane.ERROR_MESSAGE);
@@ -101,7 +105,7 @@ public class Runner implements Runnable {
         weightSlider.setMinorTickSpacing(5);
         weightSlider.setPaintLabels(true);
         weightSlider.setPaintTicks(true);
-        weightSlider.setToolTipText("0 = lower seed always\n< 50 = favors lower seed\n50 = random chance based on seed (i.e. seed of 1 vs 16 has a 16/17 and 1/17 chance of winning\n> 50 = favors higher seed\n100 = higher seed always");
+        weightSlider.setToolTipText("<html><body>0 = lower seed always<br>&lt; 50 = favors lower seed<br>50 = random chance based on seed (i.e. seed of 1 vs 16 has a 16/17 and 1/17 chance of winning<br>&gt; 50 = favors higher seed<br>100 = higher seed always</body><html>");
         weightSlider.addChangeListener(e -> {
             int weight = weightSlider.getValue();
             weightText.setText("Weight: " + weight);

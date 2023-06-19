@@ -16,6 +16,7 @@ import java.util.Map;
 
 public class AutoFiller {
     static int count = 0;
+    static Map<String, Animal> animalMap = new LinkedHashMap<>();
     final int LENGTH = 200, HEIGHT = 50;
     FileInputStream fis;
     FileOutputStream fos;
@@ -23,7 +24,6 @@ public class AutoFiller {
     XSSFWorkbook wb;
     XSSFSheet helper, sample, bracket;
     Animal animal;
-    static Map<String, Animal> animalMap = new LinkedHashMap<>();
     int[][] yPosition = {
             {1513},
             {465, 570, 667, 779, 884, 988, 1093, 1197, 1628, 1731, 1836, 1940, 2045, 2149, 2254, 2359},
@@ -55,12 +55,23 @@ public class AutoFiller {
     }
 
     public static void main(String[] args) {
+        makeDirectory();
         AutoFiller autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket.png"));
         autoFiller.makeAnimalObjects();
         autoFiller.makeEmptyImage();
         autoFiller.compareWildcards();
         autoFiller.compareMinorRounds();
         autoFiller.compareChampionship();
+    }
+
+    public static void makeDirectory() {
+        if (!(new File("CompletedBoards").exists())) {    //checks to see if there is a directory to store account information
+            boolean dirMade = (new File("CompletedBoards")).mkdir(); //creates a directory
+            if (!dirMade) {
+                JOptionPane.showMessageDialog(null, "Error: Something went wrong. Please try again later", "Error", JOptionPane.ERROR_MESSAGE);
+                System.exit(-999);
+            }
+        }
     }
 
     public void makeAnimalObjects() {
@@ -91,14 +102,6 @@ public class AutoFiller {
             ImageIO.write(bufferedImage, "png", file);
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
-
-        if (!(new File("CompletedBoards").exists())) {    //checks to see if there is a directory to store account information
-            boolean dirMade = (new File("CompletedBoards")).mkdir(); //creates a directory
-            if (!dirMade) {
-                JOptionPane.showMessageDialog(null, "Error: Something went wrong. Please try again later", "Error", JOptionPane.ERROR_MESSAGE);
-                System.exit(-999);
-            }
         }
     }
 
@@ -187,6 +190,7 @@ public class AutoFiller {
             throw new RuntimeException(e);
         }
         printToImage(xPosition[6], yPosition[6][0], Winner.getName(), 320, 85);
+
     }
 
     public void printToImage(int x, int y, String name, int length, int heightP) {
