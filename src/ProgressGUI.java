@@ -204,6 +204,8 @@ public class ProgressGUI {
                     String numString = fullName.replace(".png", "").replace("SampleBracket", "");
                     if (numString.equals("")) {
                         num = 1;
+                    } else if (isInteger(numString)) {
+                        num = Integer.parseInt(numString);
                     }
                     if (num > ref.i) {
                         ref.i = num;
@@ -227,6 +229,15 @@ public class ProgressGUI {
             autoFiller.compareWildcards();
             autoFiller.compareMinorRounds();
             autoFiller.compareChampionship();
+        }
+    }
+
+    private boolean isInteger(String numString) {
+        try {
+            Integer.parseInt(numString);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 }

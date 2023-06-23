@@ -195,7 +195,9 @@ public class AutoFiller {
 
     public void printToImage(int x, int y, String name, int length, int heightP) {
         count++;
-        ProgressGUI.updateProgressBar(count);
+        if (ProgressGUI.progressBar != null) {
+            ProgressGUI.updateProgressBar(count);
+        }
         try {
             int width, height, fontSize = 0;
             File file = new File(String.valueOf(destination));
