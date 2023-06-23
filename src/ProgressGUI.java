@@ -166,7 +166,7 @@ public class ProgressGUI {
         frame.setResizable(false);
         frame.setVisible(true);
 
-        Timer t = new Timer(500, e -> {
+        Timer t = new Timer(1000, e -> {
             if (!(count == Runner.rounds * 64)) {
                 end = Instant.now();
             }
@@ -199,8 +199,12 @@ public class ProgressGUI {
         try (Stream<Path> fileStream = Files.walk(completedBoards)) {
             fileStream.forEach(path -> {
                 if (!(path.toFile()).isDirectory()) {
+                    int num = 0;
                     String fullName = path.toFile().getName();
-                    int num = Integer.parseInt(fullName.replace(".png", "").replace("SampleBracket", ""));
+                    String numString = fullName.replace(".png", "").replace("SampleBracket", "");
+                    if (numString.equals("")) {
+                        num = 1;
+                    }
                     if (num > ref.i) {
                         ref.i = num;
                     }
