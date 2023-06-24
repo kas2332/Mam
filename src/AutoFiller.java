@@ -65,8 +65,8 @@ public class AutoFiller {
     }
 
     public static void makeDirectory() {
-        if (!(new File("CompletedBoards").exists())) {    //checks to see if there is a directory to store account information
-            boolean dirMade = (new File("CompletedBoards")).mkdir(); //creates a directory
+        if (!(new File("CompletedBoards").exists())) {
+            boolean dirMade = (new File("CompletedBoards")).mkdir();
             if (!dirMade) {
                 JOptionPane.showMessageDialog(null, "Error: Something went wrong. Please try again later", "Error", JOptionPane.ERROR_MESSAGE);
                 System.exit(-999);
