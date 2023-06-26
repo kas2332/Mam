@@ -54,7 +54,7 @@ public class Animal {
             if (higherSeedAnimal != null) {
                 return higherSeedAnimal;
             }
-        } else if (weight < 50) {
+        } else if (weight < 50 ) {
             num += num * ((50 - weight) / 100.0);
         } else if ((weight < 100) && (weight != 50)) {
             num -= num * ((weight - 50) / 100.0);
