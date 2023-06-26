@@ -3,7 +3,7 @@ import java.util.Random;
 public class Animal {
     private final String name;
     private final int rank;
-    Random rand = new Random();
+    private final Random rand = new Random();
 
     public Animal(String name, int rank) {
         this.name = name;
@@ -28,8 +28,8 @@ public class Animal {
     }
 
     public Animal winner(Animal animal1, Animal animal2) {
-        boolean random = Runner.random;
-        int weight = Runner.weight, range;
+        boolean random = Runner.isRandom();
+        int weight = Runner.getWeight(), range;
         double num;
         Animal lowerSeedAnimal = null, higherSeedAnimal = null;
 

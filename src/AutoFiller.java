@@ -15,16 +15,14 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AutoFiller {
-    static int count = 0;
-    static Map<String, Animal> animalMap = new LinkedHashMap<>();
-    final int LENGTH = 200, HEIGHT = 50;
-    FileInputStream fis;
-    FileOutputStream fos;
-    File destination;
-    XSSFWorkbook wb;
-    XSSFSheet helper, sample, bracket;
-    Animal animal;
-    int[][] yPosition = {
+    private static int count = 0;
+    private FileOutputStream fos;
+    private static final Map<String, Animal> animalMap = new LinkedHashMap<>();
+    private final File destination;
+    private final XSSFWorkbook wb;
+    private static XSSFSheet helper, sample, bracket;
+    private final Animal animal;
+    private final int[][] yPosition = {
             {1513},
             {465, 570, 677, 779, 884, 988, 1093, 1197, 1628, 1731, 1836, 1940, 2045, 2149, 2254, 2359},
             {518, 727, 936, 1145, 1679, 1888, 2097, 2306},
@@ -38,13 +36,13 @@ public class AutoFiller {
             {518, 727, 936, 1145, 1679, 1888, 2097, 2306},
             {465, 570, 677, 779, 884, 988, 1093, 1197, 1628, 1731, 1836, 1940, 2045, 2149, 2254, 2359}
     };
-    int[] xPosition = {404, 631, 826, 1028, 1228, 1428, 1497, 1686, 1895, 2101, 2295, 2495};
+    private final int[] xPosition = {404, 631, 826, 1028, 1228, 1428, 1497, 1686, 1895, 2101, 2295, 2495};
 
     public AutoFiller(File destination) {
         this.destination = destination;
         animal = new Animal();
         try {
-            fis = new FileInputStream("Resources\\Bracket.xlsx");
+            FileInputStream fis = new FileInputStream("Resources\\Bracket.xlsx");
             wb = new XSSFWorkbook(fis);
             helper = wb.getSheetAt(0);
             sample = wb.getSheetAt(1);
@@ -56,8 +54,8 @@ public class AutoFiller {
 
     public static void main(String[] args) {
         makeDirectory();
+        makeAnimalObjects();
         AutoFiller autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket.png"));
-        autoFiller.makeAnimalObjects();
         autoFiller.makeEmptyImage();
         autoFiller.compareWildcards();
         autoFiller.compareMinorRounds();
@@ -74,7 +72,7 @@ public class AutoFiller {
         }
     }
 
-    public void makeAnimalObjects() {
+    public static void makeAnimalObjects() {
         String name;
         int rank;
         for (int r = 1; r < 66; r++) {
@@ -158,6 +156,8 @@ public class AutoFiller {
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
+                    int LENGTH = 200;
+                    int HEIGHT = 50;
                     printToImage(xPosition[(((distanceFromCenter - 1) * c) + 6)], yPosition[(((distanceFromCenter - 1) * c) + 6)][((r - incrementFromEnds) / nextAnimal)], Winner.getName(), LENGTH, HEIGHT);
                 }
             }
@@ -193,9 +193,9 @@ public class AutoFiller {
 
     }
 
-    public void printToImage(int x, int y, String name, int length, int heightP) {
+    private void printToImage(int x, int y, String name, int length, int heightP) {
         count++;
-        if (ProgressGUI.progressBar != null) {
+        if (!ProgressGUI.progressBarIsNull()) {
             ProgressGUI.updateProgressBar(count);
         }
         try {
@@ -226,5 +226,9 @@ public class AutoFiller {
 
     public File getDestination() {
         return destination;
+    }
+
+    public static void resetCount() {
+        count = 0;
     }
 }

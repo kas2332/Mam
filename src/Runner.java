@@ -2,22 +2,22 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Runner implements Runnable {
-    static boolean random;
-    static int weight;
-    static Thread thread;
-    static int rounds;
-    static JFrame frame;
-    JSpinner incrementer;
-    JButton confirmButton;
-    ProgressGUI progressGUI;
-    Font font = new Font("Comic Sans MS", Font.PLAIN, 12), titleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
+    private static boolean random;
+    private static int weight;
+    private static int rounds;
+    private static JFrame frame;
+    private Thread thread;
+    private JSpinner incrementer;
+    private ProgressGUI progressGUI;
+    private final Font font = new Font("Comic Sans MS", Font.PLAIN, 12);
+    private final Font titleFont = new Font("Comic Sans MS", Font.PLAIN, 20);
 
     public static void main(String[] args) {
         Runner runner = new Runner();
         runner.displayGUI();
     }
 
-    public void displayGUI() {
+    private void displayGUI() {
         //<editor-fold desc="Variable Declarations">
         JSpinner jSpinner1 = new JSpinner();
         JPanel jPanel1 = new JPanel();
@@ -25,7 +25,7 @@ public class Runner implements Runnable {
         JLabel descriptionText = new JLabel();
         JPanel autoFillerPanel = new JPanel();
         incrementer = new JSpinner();
-        confirmButton = new JButton();
+        JButton confirmButton = new JButton();
         JLabel autoFillerDescriptionText = new JLabel();
         JPanel customizationPanel = new JPanel();
         JLabel weightText = new JLabel();
@@ -235,5 +235,21 @@ public class Runner implements Runnable {
     public void run() {
         ProgressGUI progressGUI1 = new ProgressGUI();
         progressGUI1.makeBrackets();
+    }
+
+    public static boolean isRandom() {
+        return random;
+    }
+
+    public static int getWeight() {
+        return weight;
+    }
+
+    public static int getRounds() {
+        return rounds;
+    }
+
+    public static void setFrameVisibility(boolean visibility) {
+        frame.setVisible(visibility);
     }
 }

@@ -13,18 +13,18 @@ import java.util.stream.Stream;
 import static java.lang.Thread.sleep;
 
 public class ProgressGUI {
-    static int numBrackets, count;
-    static JProgressBar progressBar;
-    static JLabel loadingText;
-    static JButton okayButton;
-    static AutoFiller autoFiller;
-    static Instant start, end;
-    JFrame frame;
-    Duration duration;
+    private static int count;
+    private static JLabel loadingText;
+    private static JButton okayButton;
+    private static JProgressBar progressBar;
+    private AutoFiller autoFiller;
+    private Instant start, end;
+    private JFrame frame;
+    private Duration duration;
 
     public static void updateProgressBar(int countP) {
         count = countP;
-        if (count == (Runner.rounds * 64)) {
+        if (count == (Runner.getRounds() * 64)) {
             loadingText.setText("Completed!");
             okayButton.setEnabled(true);
         } else if ((count % 3) == 0) {
@@ -36,7 +36,7 @@ public class ProgressGUI {
         }
     }
 
-    public static String formatTime(int sec) {
+    private static String formatTime(int sec) {
         int seconds = sec % 60;
         int minutes = sec / 60;
         int hours = minutes / 60;
@@ -80,7 +80,7 @@ public class ProgressGUI {
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 if (loadingText.getText().equals("Completed!")) {
                     frame.dispose();
-                    Runner.frame.setVisible(true);
+                    Runner.setFrameVisibility(true);
                 } else if ((JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit this program?", "Close Window?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) && !(loadingText.getText().equals("Completed!"))) {
                     frame.setEnabled(false);
                     File file;
@@ -112,7 +112,7 @@ public class ProgressGUI {
         okayButton.setEnabled(false);
         okayButton.addActionListener(e -> {
             frame.dispose();
-            Runner.frame.setVisible(true);
+            Runner.setFrameVisibility(true);
         });
 
         loadingText.setText("Loading.");
@@ -167,7 +167,7 @@ public class ProgressGUI {
         frame.setVisible(true);
 
         Timer t = new Timer(1000, e -> {
-            if (!(count == Runner.rounds * 64)) {
+            if (!(count == Runner.getRounds() * 64)) {
                 end = Instant.now();
             }
             if (!(start == null)) {
@@ -175,8 +175,8 @@ public class ProgressGUI {
             } else {
                 duration = Duration.ofDays(0);
             }
-            progressBar.setValue((int) Math.floor(((double) count / (Runner.rounds * 64)) * 100));
-            progressBar.setToolTipText("<html><body>Brackets Completed: " + (count / (64)) + "<br>Time Elapsed: " + formatTime(Math.toIntExact(duration.toSeconds())) + "<br>Estimated Time Remaining: " + formatTime(((Runner.rounds * 64) - count) / 2));
+            progressBar.setValue((int) Math.floor(((double) count / (Runner.getRounds() * 64)) * 100));
+            progressBar.setToolTipText("<html><body>Brackets Completed: " + (count / (64)) + "<br>Time Elapsed: " + formatTime(Math.toIntExact(duration.toSeconds())) + "<br>Estimated Time Remaining: " + formatTime(((Runner.getRounds() * 64) - count) / 2));
             Point locationOnScreen = MouseInfo.getPointerInfo().getLocation();
             Point locationOnComponent = new Point(locationOnScreen);
             SwingUtilities.convertPointFromScreen(locationOnComponent, progressBar);
@@ -190,7 +190,7 @@ public class ProgressGUI {
     }
 
     public void makeBrackets() {
-        AutoFiller.count = 0;
+        AutoFiller.resetCount();
         count = 0;
         var ref = new Object() {
             int i = 0;
@@ -223,7 +223,8 @@ public class ProgressGUI {
         start = Instant.now();
         AutoFiller.makeDirectory();
         autoFiller.makeAnimalObjects();
-        for (numBrackets = ref.i; numBrackets < (ref.i + Runner.rounds); numBrackets++) {
+        int numBrackets;
+        for (numBrackets = ref.i; numBrackets < (ref.i + Runner.getRounds()); numBrackets++) {
             autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
             autoFiller.makeEmptyImage();
             autoFiller.compareWildcards();
@@ -239,5 +240,9 @@ public class ProgressGUI {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public static boolean progressBarIsNull() {
+        return progressBar == null;
     }
 }
