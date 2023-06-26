@@ -222,7 +222,7 @@ public class ProgressGUI {
         ref.i++;
         start = Instant.now();
         AutoFiller.makeDirectory();
-        autoFiller.makeAnimalObjects();
+        AutoFiller.makeAnimalObjects();
         int numBrackets;
         for (numBrackets = ref.i; numBrackets < (ref.i + Runner.getRounds()); numBrackets++) {
             autoFiller = new AutoFiller(new File("CompletedBoards\\SampleBracket" + numBrackets + ".png"));
