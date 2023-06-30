@@ -1,7 +1,9 @@
 
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -46,13 +48,16 @@ class Main {
             FileInputStream fis = new FileInputStream("Bracket.xlsx");
             Workbook wb = new XSSFWorkbook(fis);
             ArrayList<Sheet> sheetArrayList = new ArrayList<>();
-            sheetArrayList.add(wb.createSheet("Helper"));
-            sheetArrayList.add(wb.createSheet("Sample"));
-            sheetArrayList.add(wb.createSheet("Bracket"));
+            Sheet helper = wb.createSheet("Helper");
+            Sheet sample = wb.createSheet("Sample");
+            Sheet bracket = wb.createSheet("Bracket");
+            sheetArrayList.add(helper);
+            sheetArrayList.add(sample);
+            sheetArrayList.add(bracket);
             for (Sheet sheet : sheetArrayList) {
-                for (int row = 0; row < 75; row++) {
+                for (int row = 0; row < 66; row++) {
                     sheet.createRow(row);
-                    for (int col = 0; col < 25; col++) {
+                    for (int col = 0; col < 15; col++) {
                         sheet.getRow(row).createCell(col);
                     }
                 }
@@ -60,7 +65,8 @@ class Main {
 
 
             for (int i = 0; i < 64; i++) {
-                XSSFRow row = (XSSFRow) sheetArrayList.get(0).getRow(3);
+                Row row = helper.getRow(3);
+
             }
 
         } catch (IOException e) {
