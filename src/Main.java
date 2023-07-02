@@ -1,9 +1,7 @@
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -25,11 +23,15 @@ class Main {
     }
 
     public static void main(String[] args) {
+        Main main = new Main();
+        main.downloadTemplate();
+        main.downloadPNG();
+        main.makeHelperSheets();
     }
 
     public void downloadTemplate() {
         try {
-            downloadFile(new URL("https://libapps.s3.amazonaws.com/accounts/46633/images/March_Mammal_Madness_2023_Bracket_v1_0_English.png"), "Resources\\2023_Template.png");
+            downloadFile(new URL("https://libapps.s3.amazonaws.com/accounts/46633/images/March_Mammal_Madness_2023_Bracket_v1_0_English.png"), "2023_Template.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -37,7 +39,7 @@ class Main {
 
     public void downloadPNG() {
         try {
-            downloadFile(new URL("https://libguides.asu.edu/ld.php?content_id=70694104"), "Resources\\Official_2023_List.xlsx");
+            downloadFile(new URL("https://libguides.asu.edu/ld.php?content_id=70694104"), "Official_2023_List.xlsx");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -64,7 +66,7 @@ class Main {
             }
 
             int count = 0;
-            for (int i = 1; i < 66; i++, count++) {
+            for (int i = 1; i < 65; i++, count++) {
                 switch (i) {
                     case (1) -> count = 19;
                     case (17) -> count = 2;
@@ -73,7 +75,17 @@ class Main {
                 }
                 Row row = helper.getRow(i);
                 Cell cell = row.getCell(3);
-                cell.setCellFormula();
+                cell.setCellFormula("=[Official_2023_List.xlsx]Sheet1!C" + count);
+                cell = row.getCell(2);
+                if (i == 33) {
+                    i--;
+                }
+                cell.setCellValue((i % 16) + 1);
+            }
+            for (int i = 1; i < 3; i++) {
+                Row row = helper.getRow(i);
+                Cell cell = row.getCell(0);
+                cell.setCellFormula("=[Official_2023_List.xlsx]Sheet1!C" + (17 + i - 1));
             }
 
         } catch (IOException e) {
