@@ -1,9 +1,9 @@
 
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFRow;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
@@ -63,10 +63,17 @@ class Main {
                 }
             }
 
-
-            for (int i = 0; i < 64; i++) {
-                Row row = helper.getRow(3);
-
+            int count = 0;
+            for (int i = 1; i < 66; i++, count++) {
+                switch (i) {
+                    case (1) -> count = 19;
+                    case (17) -> count = 2;
+                    case (34) -> count = 51;
+                    case (50) -> count = 35;
+                }
+                Row row = helper.getRow(i);
+                Cell cell = row.getCell(3);
+                cell.setCellFormula();
             }
 
         } catch (IOException e) {

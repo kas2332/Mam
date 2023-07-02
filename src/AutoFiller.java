@@ -83,13 +83,13 @@ public class AutoFiller {
             name = cellAnimal.getStringCellValue();
             animalMap.put(name, new Animal(name, rank));
         }
-        for (int r = 1; r < 3; r++) {
-            XSSFRow row = helper.getRow(r);
-            rank = 16;
-            Cell cellAnimal = row.getCell(0);
-            name = cellAnimal.getStringCellValue();
-            animalMap.put(name, new Animal(name, rank));
-        }
+//        for (int r = 1; r < 3; r++) {
+//            XSSFRow row = helper.getRow(r);
+//            rank = 16;
+//            Cell cellAnimal = row.getCell(0);
+//            name = cellAnimal.getStringCellValue();
+//            animalMap.put(name, new Animal(name, rank));
+//        }
     }
 
     public void makeEmptyImage() {
