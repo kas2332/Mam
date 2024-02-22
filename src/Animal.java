@@ -4,7 +4,6 @@ public class Animal {
     private final String name;
     private final int rank;
     private final Random rand = new Random();
-
     public Animal(String name, int rank) {
         this.name = name;
         this.rank = rank;

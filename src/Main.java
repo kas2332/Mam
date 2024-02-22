@@ -24,14 +24,14 @@ class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        main.downloadTemplate();
-        main.downloadPNG();
+//        main.downloadTemplate();
+//        main.downloadPNG();
         main.makeHelperSheets();
     }
 
     public void downloadTemplate() {
         try {
-            downloadFile(new URL("https://libapps.s3.amazonaws.com/accounts/46633/images/March_Mammal_Madness_2023_Bracket_v1_0_English.png"), "2023_Template.png");
+            downloadFile(new URL("https://libapps.s3.amazonaws.com/accounts/46633/images/March_Mammal_Madness_2023_Bracket_v1_0_English.png"), "2024_Template.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

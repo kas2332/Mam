@@ -94,7 +94,7 @@ public class AutoFiller {
 
     public void makeEmptyImage() {
         try {
-            File file = new File("Resources\\2023_Template.png");
+            File file = new File("Resources\\2024_Template.png");
             BufferedImage bufferedImage = ImageIO.read(file);
             file = new File(String.valueOf(destination));
             ImageIO.write(bufferedImage, "png", file);
