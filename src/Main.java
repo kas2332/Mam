@@ -29,21 +29,21 @@ class Main {
         main.makeHelperSheets();
     }
 
-    public void downloadTemplate() {
-        try {
-            downloadFile(new URL("https://libapps.s3.amazonaws.com/accounts/46633/images/March_Mammal_Madness_2023_Bracket_v1_0_English.png"), "2024_Template.png");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public void downloadTemplate() {
+//        try {
+//            downloadFile(new URL("https://libapps.s3.amazonaws.com/accounts/46633/images/March_Mammal_Madness_2023_Bracket_v1_0_English.png"), "2024_Template.png");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
-    public void downloadPNG() {
-        try {
-            downloadFile(new URL("https://libguides.asu.edu/ld.php?content_id=70694104"), "Official_2023_List.xlsx");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    public void downloadPNG() {
+//        try {
+//            downloadFile(new URL("https://libguides.asu.edu/ld.php?content_id=70694104"), "Official_2023_List.xlsx");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     public void makeHelperSheets() {
         try {
@@ -75,7 +75,7 @@ class Main {
                 }
                 Row row = helper.getRow(i);
                 Cell cell = row.getCell(3);
-                cell.setCellFormula("=[Official_2023_List.xlsx]Sheet1!C" + count);
+                cell.setCellFormula("=[Official_2024_List.xlsx]Sheet1!C" + count);
                 cell = row.getCell(2);
                 if (i == 33) {
                     i--;
@@ -85,7 +85,7 @@ class Main {
             for (int i = 1; i < 3; i++) {
                 Row row = helper.getRow(i);
                 Cell cell = row.getCell(0);
-                cell.setCellFormula("=[Official_2023_List.xlsx]Sheet1!C" + (17 + i - 1));
+                cell.setCellFormula("=[Official_2024_List.xlsx]Sheet1!C" + (17 + i - 1));
             }
 
         } catch (IOException e) {

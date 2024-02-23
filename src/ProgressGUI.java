@@ -202,7 +202,7 @@ public class ProgressGUI {
                     int num = 0;
                     String fullName = path.toFile().getName();
                     String numString = fullName.replace(".png", "").replace("SampleBracket", "");
-                    if (numString.equals("")) {
+                    if (numString.isEmpty()) {
                         num = 1;
                     } else if (isInteger(numString)) {
                         num = Integer.parseInt(numString);
