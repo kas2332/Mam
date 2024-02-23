@@ -198,29 +198,32 @@ public class AutoFiller {
         if (!ProgressGUI.progressBarIsNull()) {
             ProgressGUI.updateProgressBar(count);
         }
-        try {
-            int width, height, fontSize = 0;
-            File file = new File(String.valueOf(destination));
-            BufferedImage bufferedImage = ImageIO.read(file);
-            Graphics2D g2d = bufferedImage.createGraphics();
-            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-            g2d.setColor(Color.black);
-            do {
-                fontSize++;
-                g2d.setFont(new Font("Comic Sans MS", Font.BOLD, fontSize));
-                width = g2d.getFontMetrics().stringWidth(name);
+        String[] nameList = name.split(" ");
+        for (int i = 0; i < nameList.length; i++) {
+            try {
+                int width, height, fontSize = 0;
+                File file = new File(String.valueOf(destination));
+                BufferedImage bufferedImage = ImageIO.read(file);
+                Graphics2D g2d = bufferedImage.createGraphics();
+                g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+                g2d.setColor(Color.black);
+                do {
+                    fontSize++;
+                    g2d.setFont(new Font("Comic Sans MS", Font.BOLD, fontSize));
+                    width = g2d.getFontMetrics().stringWidth(nameList[i]);
+                    height = g2d.getFontMetrics().getHeight();
+                } while ((width < length - 10) && (height < heightP - 10));
+                g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, fontSize - 1));
+                width = g2d.getFontMetrics().stringWidth(nameList[i]);
                 height = g2d.getFontMetrics().getHeight();
-            } while ((width < length - 10) && (height < heightP - 10));
-            g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, fontSize - 1));
-            width = g2d.getFontMetrics().stringWidth(name);
-            height = g2d.getFontMetrics().getHeight();
-            int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = ((heightP - height) / 2) + g2d.getFontMetrics().getDescent();
-            g2d.drawString(name, x + xOffset, y - yOffset);
-            g2d.dispose();
-            file = new File(String.valueOf(destination));
-            ImageIO.write(bufferedImage, "png", file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+                int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = (((heightP - ((i + 1) * height)) / 2) + g2d.getFontMetrics().getDescent());
+                g2d.drawString(nameList[i], x + xOffset, (int) (y - (yOffset + (.5 * height))));
+                g2d.dispose();
+                file = new File(String.valueOf(destination));
+                ImageIO.write(bufferedImage, "png", file);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

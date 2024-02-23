@@ -170,7 +170,7 @@ public class ProgressGUI {
             if (!(count == Runner.getRounds() * 64)) {
                 end = Instant.now();
             }
-            if (!(start == null)) {
+            if (start != null) {
                 duration = Duration.between(start, end);
             } else {
                 duration = Duration.ofDays(0);
