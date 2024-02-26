@@ -216,8 +216,8 @@ public class AutoFiller {
                 g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, fontSize - 1));
                 width = g2d.getFontMetrics().stringWidth(nameList[i]);
                 height = g2d.getFontMetrics().getHeight();
-                int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = (((heightP - ((i + 1) * height)) / 2) + g2d.getFontMetrics().getDescent());
-                g2d.drawString(nameList[i], x + xOffset, (int) (y - (yOffset + (.5 * height))));
+                int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = (heightP - (((i) * (height - 100))) / 2) + g2d.getFontMetrics().getDescent();
+                g2d.drawString(nameList[i], x + xOffset, (y - yOffset));
                 g2d.dispose();
                 file = new File(String.valueOf(destination));
                 ImageIO.write(bufferedImage, "png", file);

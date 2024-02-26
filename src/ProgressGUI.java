@@ -165,28 +165,6 @@ public class ProgressGUI {
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
-
-        Timer t = new Timer(1000, e -> {
-            if (!(count == Runner.getRounds() * 64)) {
-                end = Instant.now();
-            }
-            if (start != null) {
-                duration = Duration.between(start, end);
-            } else {
-                duration = Duration.ofDays(0);
-            }
-            progressBar.setValue((int) Math.floor(((double) count / (Runner.getRounds() * 64)) * 100));
-            progressBar.setToolTipText("<html><body>Brackets Completed: " + (count / (64)) + "<br>Time Elapsed: " + formatTime(Math.toIntExact(duration.toSeconds())) + "<br>Estimated Time Remaining: " + formatTime(((Runner.getRounds() * 64) - count) / 2));
-            Point locationOnScreen = MouseInfo.getPointerInfo().getLocation();
-            Point locationOnComponent = new Point(locationOnScreen);
-            SwingUtilities.convertPointFromScreen(locationOnComponent, progressBar);
-            if (progressBar.contains(locationOnComponent)) {
-                ToolTipManager.sharedInstance().mouseMoved(
-                        new MouseEvent(progressBar, -1, System.currentTimeMillis(), 0, locationOnComponent.x, locationOnComponent.y,
-                                locationOnScreen.x, locationOnScreen.y, 0, false, 0));
-            }
-        });
-        t.start();
     }
 
     public void makeBrackets() {
@@ -221,6 +199,27 @@ public class ProgressGUI {
         autoFiller = new AutoFiller(null);
         ref.i++;
         start = Instant.now();
+        Timer t = new Timer(1000, e -> {
+            if (!(count == Runner.getRounds() * 64)) {
+                end = Instant.now();
+            }
+            if ((start != null) && (end != null)) {
+                duration = Duration.between(start, end);
+            } else {
+                duration = Duration.ofDays(0);
+            }
+            progressBar.setValue((int) Math.floor(((double) count / (Runner.getRounds() * 64)) * 100));
+            progressBar.setToolTipText("<html><body>Brackets Completed: " + (count / (64)) + "<br>Time Elapsed: " + formatTime(Math.toIntExact(duration.toSeconds())) + "<br>Estimated Time Remaining: " + formatTime((Runner.getRounds() * 64) - count));
+            Point locationOnScreen = MouseInfo.getPointerInfo().getLocation();
+            Point locationOnComponent = new Point(locationOnScreen);
+            SwingUtilities.convertPointFromScreen(locationOnComponent, progressBar);
+            if (progressBar.contains(locationOnComponent)) {
+                ToolTipManager.sharedInstance().mouseMoved(
+                        new MouseEvent(progressBar, -1, System.currentTimeMillis(), 0, locationOnComponent.x, locationOnComponent.y,
+                                locationOnScreen.x, locationOnScreen.y, 0, false, 0));
+            }
+        });
+        t.start();
         AutoFiller.makeDirectory();
         AutoFiller.makeAnimalObjects();
         int numBrackets;
