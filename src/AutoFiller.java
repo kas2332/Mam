@@ -23,13 +23,13 @@ public class AutoFiller {
     private static XSSFSheet helper, sample, bracket;
     private final Animal animal;
     private final int[][] yPosition = {
-            {1513},
+            {1520},
             {465, 570, 677, 779, 884, 988, 1093, 1197, 1628, 1731, 1836, 1940, 2045, 2149, 2254, 2359},
             {518, 727, 936, 1145, 1679, 1888, 2097, 2306},
             {622, 1040, 1783, 2202},
             {831, 1993},
             {940},
-            {1194},
+            {1195},
             {1369},
             {831, 1993},
             {622, 1040, 1783, 2202},
@@ -212,11 +212,11 @@ public class AutoFiller {
                     g2d.setFont(new Font("Comic Sans MS", Font.BOLD, fontSize));
                     width = g2d.getFontMetrics().stringWidth(nameList[i]);
                     height = g2d.getFontMetrics().getHeight();
-                } while ((width < length - 10) && (height < heightP - 10));
+                } while ((width < length - 10) && (height < heightP - 10) && (fontSize < 30));
                 g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, fontSize - 1));
                 width = g2d.getFontMetrics().stringWidth(nameList[i]);
                 height = g2d.getFontMetrics().getHeight();
-                int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = (heightP - (((i) * (height - 100))) / 2) + g2d.getFontMetrics().getDescent();
+                int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = (heightP - (((i + 1) * (height + fontSize - 9))) / 2) + g2d.getFontMetrics().getDescent();
                 g2d.drawString(nameList[i], x + xOffset, (y - yOffset));
                 g2d.dispose();
                 file = new File(String.valueOf(destination));
