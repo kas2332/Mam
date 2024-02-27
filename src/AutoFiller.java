@@ -23,7 +23,7 @@ public class AutoFiller {
     private static XSSFSheet helper, sample, bracket;
     private final Animal animal;
     private final int[][] yPosition = {
-            {1520},
+            {1525},
             {465, 570, 677, 779, 884, 988, 1093, 1197, 1628, 1731, 1836, 1940, 2045, 2149, 2254, 2359},
             {518, 727, 936, 1145, 1679, 1888, 2097, 2306},
             {622, 1040, 1783, 2202},
@@ -83,13 +83,6 @@ public class AutoFiller {
             name = cellAnimal.getStringCellValue();
             animalMap.put(name, new Animal(name, rank));
         }
-//        for (int r = 1; r < 3; r++) {
-//            XSSFRow row = helper.getRow(r);
-//            rank = 16;
-//            Cell cellAnimal = row.getCell(0);
-//            name = cellAnimal.getStringCellValue();
-//            animalMap.put(name, new Animal(name, rank));
-//        }
     }
 
     public void makeEmptyImage() {
@@ -213,7 +206,7 @@ public class AutoFiller {
                     g2d.setFont(new Font("Comic Sans MS", Font.BOLD, fontSize));
                     width = g2d.getFontMetrics().stringWidth(nameList[i]);
                     height = g2d.getFontMetrics().getHeight();
-                } while ((width < length - 10) && (height < heightP - 10) && (fontSize < 30));
+                } while ((width < length - 5) && (height < heightP - 10) && (fontSize < 35));
                 if (fontSize < smallestFontSize) {
                     smallestFontSize = fontSize;
                 }
