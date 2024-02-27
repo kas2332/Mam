@@ -29,7 +29,7 @@ public class AutoFiller {
             {622, 1040, 1783, 2202},
             {831, 1993},
             {940},
-            {1195},
+            {1200},
             {1369},
             {831, 1993},
             {622, 1040, 1783, 2202},
@@ -199,6 +199,7 @@ public class AutoFiller {
             ProgressGUI.updateProgressBar(count);
         }
         String[] nameList = name.split(" ");
+        int smallestFontSize = 30;
         for (int i = 0; i < nameList.length; i++) {
             try {
                 int width, height, fontSize = 0;
@@ -213,10 +214,13 @@ public class AutoFiller {
                     width = g2d.getFontMetrics().stringWidth(nameList[i]);
                     height = g2d.getFontMetrics().getHeight();
                 } while ((width < length - 10) && (height < heightP - 10) && (fontSize < 30));
-                g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, fontSize - 1));
+                if (fontSize < smallestFontSize) {
+                    smallestFontSize = fontSize;
+                }
+                g2d.setFont(new Font("Comic Sans MS", Font.PLAIN, smallestFontSize - 1));
                 width = g2d.getFontMetrics().stringWidth(nameList[i]);
                 height = g2d.getFontMetrics().getHeight();
-                int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = (heightP - (((i + 1) * (height + fontSize - 9))) / 2) + g2d.getFontMetrics().getDescent();
+                int xOffset = (((length - width) + g2d.getFontMetrics().getDescent()) / 2), yOffset = (heightP - (((i + 1) * (height + smallestFontSize - 9))) / 2) + g2d.getFontMetrics().getDescent();
                 g2d.drawString(nameList[i], x + xOffset, (y - yOffset));
                 g2d.dispose();
                 file = new File(String.valueOf(destination));
