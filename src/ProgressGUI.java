@@ -81,13 +81,10 @@ public class ProgressGUI {
                 if (loadingText.getText().equals("Completed!")) {
                     frame.dispose();
                     Runner.setFrameVisibility(true);
-                } else if ((JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit this program?", "Close Window?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) && !(loadingText.getText().equals("Completed!"))) {
+                } else if (JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit this program?", "Close Window?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION) {
                     frame.setEnabled(false);
-                    File file;
-                    if (autoFiller.getDestination() == null) {
-                        System.exit(0);
-                    } else {
-                        file = autoFiller.getDestination();
+                    try {
+                        File file = autoFiller.getDestination();
                         boolean deleted;
                         for (int i = 0; i < 10; i++) {
                             deleted = file.delete();
@@ -103,6 +100,8 @@ public class ProgressGUI {
                             }
                             JOptionPane.showMessageDialog(null, "Error: Unfinished file could not be deleted", "Error", JOptionPane.ERROR_MESSAGE);
                         }
+                    } catch (RuntimeException e) {
+                        throw new RuntimeException(e);
                     }
                 }
             }
